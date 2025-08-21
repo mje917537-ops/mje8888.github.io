@@ -1,0 +1,216 @@
+/* 기본 & 폰트 설정 */
+:root {
+    --primary-color: #3498db;
+    --background-color: #f4f7f9;
+    --card-background: #ffffff;
+    --text-color: #333333;
+    --subtext-color: #777777;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+body {
+    font-family: 'IBM Plex Sans KR', 'Noto Sans KR', sans-serif;
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* 레이아웃 */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+}
+
+header {
+    text-align: center;
+    margin: 2rem 0 3rem;
+}
+
+header h1 {
+    font-size: 2.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+}
+
+header p {
+    font-size: 1.1rem;
+    color: var(--subtext-color);
+}
+
+/* 필터 및 검색 */
+.filters {
+    background-color: var(--card-background);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    margin-bottom: 2.5rem;
+}
+
+.search-wrapper {
+    margin-bottom: 1rem;
+}
+
+#search-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    color: #555;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: #e9e9e9;
+    border-color: #ccc;
+}
+
+.filter-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* 맛집 카드 */
+.place-list {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.place-card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    padding: 1.5rem 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease, transform 0.5s ease;
+    opacity: 0; /* 스크롤 애니메이션을 위해 기본 숨김 */
+    transform: translateY(20px); /* 아래에서 위로 올라오는 효과 */
+}
+
+.place-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.place-card.hide {
+    display: none;
+}
+
+.place-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.place-card h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+    color: #2c3e50;
+}
+
+.address-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.address {
+    color: var(--subtext-color);
+    font-size: 0.9rem;
+}
+
+.map-link {
+    background-color: #2ecc71;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.map-link:hover {
+    background-color: #27ae60;
+}
+
+.place-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.place-card ul li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.6rem;
+}
+
+.place-card ul li span {
+    margin-right: 0.8rem;
+    font-size: 1.2rem;
+}
+
+.note {
+    background-color: #fffbe6;
+    border: 1px solid #ffe58f;
+    border-left: 4px solid #faad14;
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    color: #574825;
+}
+
+/* 푸터 */
+footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding-bottom: 2rem;
+    color: #999;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+    .container {
+        padding: 1rem;
+    }
+    header h1 {
+        font-size: 2.2rem;
+    }
+    .place-card {
+        padding: 1.5rem;
+    }
+    .place-card h2 {
+        font-size: 1.5rem;
+    }
+}
