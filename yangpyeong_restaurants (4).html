@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>양평 맛집 가이드 - 로컬 추천 맛집 20곳</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="80" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .profile-info {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .name {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .title {
+            font-size: 1.3em;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .section {
+            padding: 60px 40px;
+        }
+        
+        .section:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .section-title {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border-radius: 2px;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .category-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .category-card h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .category-count {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .restaurant-item {
+            background: white;
+            padding: 35px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid;
+            border-image: linear-gradient(45deg, #ff6b6b, #feca57) 1;
+            transition: transform 0.3s ease;
+        }
+        
+        .restaurant-item:hover {
+            transform: translateX(10px);
+        }
+        
+        .restaurant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .restaurant-name {
+            color: #2c3e50;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+        
+        .restaurant-type {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        
+        .restaurant-address {
+            color: #666;
+            font-size: 1em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .restaurant-description {
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .restaurant-description ul {
+            margin: 10px 0 0 20px;
+        }
+        
+        .restaurant-description li {
+            margin-bottom: 8px;
+        }
+        
+        .recommendation-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .recommendation-tag {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        
+        .intro {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: black;
+            text-align: center;
+        }
+        
+        .intro .section-title {
+            color: black;
+        }
+        
+        .intro .section-title::after {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+        }
+        
+        .intro-content {
+            font-size: 1.1em;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .name {
+                font-size: 2.5em;
+            }
+            
+            .section {
+                padding: 40px 20px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .restaurant-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media print {
+            body {
+                background: white !important;
+                font-size: 11px;
+                color: #333 !important;
+            }
+            
+            .container {
+                box-shadow: none !important;
+                background: white !important;
+            }
+            
+            .header {
+                background: #2c3e50 !important;
+                background-image: none !important;
+                color: white !important;
+                padding: 40px 20px !important;
+            }
+            
+            .header::before {
+                display: none !important;
+            }
+            
+            .section {
+                padding: 25px 20px !important;
+                break-inside: avoid;
+                background: white !important;
+            }
+            
+            .restaurant-item {
+                break-inside: avoid;
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                background: white !important;
+                margin-bottom: 20px !important;
+                padding: 20px !important;
+            }
+            
+            * {
+                animation: none !important;
+                transition: none !important;
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="profile-info">
+                <h1 class="name">양평 맛집 가이드</h1>
+                <p class="title">로컬이 추천하는 진짜 맛집 20곳</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>🍽️</span>
+                        <span>20개 맛집</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>📍</span>
+                        <span>경기도 양평군</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>⭐</span>
+                        <span>로컬 검증 완료</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="section intro">
+            <h2 class="section-title">🎯 가이드 소개</h2>
+            <div class="intro-content">
+                <p style="font-size: 1.2em; margin-bottom: 20px;">
+                    <strong>양평 지역 로컬위주 직접다닌 집들만 소개</strong>
+                </p>
+                <p>
+                    관광객용 맛집이 아닌, 현지인들이 실제로 자주 찾는 곳들만 엄선했습니다. 
+                    주차 상황, 웨이팅 정보, 추천 메뉴까지 실용적인 정보를 담았습니다. 
+                    양평의 아름다운 자연과 함께 맛있는 음식을 즐겨보세요.
+                </p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">📊 카테고리별 맛집 현황</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <h3>🍜 한식</h3>
+                    <div class="category-count">12곳</div>
+                </div>
+                
+                <div class="category-card">
+                    <h3>🌶️ 아시아 요리</h3>
+                    <div class="category-count">3곳</div>
+                </div>
+                
+                <div class="category-card">
+                    <h3>🍞 베이커리 & 카페</h3>
+                    <div class="category-count">4곳</div>
+                </div>
+                
+                <div class="category-card">
+                    <h3>🌳 관광지</h3>
+                    <div class="category-count">1곳</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">🍽️ 추천 맛집 리스트</h2>
+            
+            <!-- 1. 면포도궁 팔당본점 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">1. 면포도궁 팔당본점</h3>
+                        <p class="restaurant-address">📍 경기 남양주시 와부읍 다산로 50 1층</p>
+                    </div>
+                    <span class="restaurant-type">베이커리</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>인기메뉴:</strong> 사라다 빵 (주말 오후에는 품절되는 인기템)</li>
+                        <li><strong>주차:</strong> 전용 주차장에서만 주정차 가능</li>
+                        <li><strong>기타:</strong> 그 외 빵들도 괜찮은 편</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">베이커리</span>
+                    <span class="recommendation-tag">주차가능</span>
+                    <span class="recommendation-tag">인기메뉴</span>
+                </div>
+            </div>
+            
+            <!-- 2. 예사랑 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">2. 예사랑</h3>
+                        <p class="restaurant-address">📍 경기 양평군 옥천면 용천로 333</p>
+                    </div>
+                    <span class="restaurant-type">한식</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>인기메뉴:</strong> 닭 누룽지 백숙</li>
+                        <li><strong>추천:</strong> 김치전, 도토리묵도 맛있고 반찬도 좋음</li>
+                        <li><strong>주차:</strong> 주차장 널널한 편</li>
+                        <li><strong>분위기:</strong> 가족단위로 오기 좋음</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">가족단위</span>
+                    <span class="recommendation-tag">주차편리</span>
+                    <span class="recommendation-tag">닭백숙</span>
+                </div>
+            </div>
+            
+            <!-- 3. 블랙밤부 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">3. 블랙밤부</h3>
+                        <p class="restaurant-address">📍 경기 양평군 서종면 꽃대울2길 39-2 1층</p>
+                    </div>
+                    <span class="restaurant-type">태국요리</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 태국 요리 전문점</li>
+                        <li><strong>분위기:</strong> 커플, 가족단위로 오기 좋음</li>
+                        <li><strong>특징:</strong> 외관이 예쁘고 내부 인테리어 괜찮음</li>
+                        <li><strong>주변:</strong> 가게 앞 테라로사 커피점도 인기</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">태국요리</span>
+                    <span class="recommendation-tag">예쁜인테리어</span>
+                    <span class="recommendation-tag">커플추천</span>
+                </div>
+            </div>
+
+            <!-- 4. 몽키가든 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">4. 몽키가든</h3>
+                        <p class="restaurant-address">📍 경기 양평군 서종면 황순원로 91-2 1층</p>
+                    </div>
+                    <span class="restaurant-type">동남아요리</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 동남아 요리 전문점</li>
+                        <li><strong>인기도:</strong> 외진 곳인데도 줄서서 먹을 정도</li>
+                        <li><strong>주차:</strong> 주차장 널널하지만 웨이팅 길어서 미리 방문예약 추천</li>
+                        <li><strong>단골:</strong> 동남아 요리 좋아하는 사람들이 주기적으로 방문</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">동남아요리</span>
+                    <span class="recommendation-tag">웨이팅주의</span>
+                    <span class="recommendation-tag">예약필수</span>
+                </div>
+            </div>
+
+            <!-- 5. 황태마을 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">5. 황태마을</h3>
+                        <p class="restaurant-address">📍 경기 양평군 양서면 북한강로 47-3</p>
+                    </div>
+                    <span class="restaurant-type">한식</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 황태구이정식 맛집</li>
+                        <li><strong>주차:</strong> 주차장 널널한 편</li>
+                        <li><strong>주변:</strong> 바로 옆 카페 "강이다"도 시설 깔끔하고 인기</li>
+                        <li><strong>산책:</strong> 식사 후 생태공원에서 북한강 보며 산책 가능</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">가족단위</span>
+                    <span class="recommendation-tag">황태구이</span>
+                    <span class="recommendation-tag">산책코스</span>
+                </div>
+            </div>
+
+            <!-- 6. 양수리 추어탕 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">6. 양수리 추어탕</h3>
+                        <p class="restaurant-address">📍 경기 양평군 양서면 북한강로 30</p>
+                    </div>
+                    <span class="restaurant-type">한식</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 파김치 장어전골 맛집</li>
+                        <li><strong>주의:</strong> 파김치의 신맛 때문에 호불호 갈림</li>
+                        <li><strong>추천:</strong> 미꾸리 튀김도 시켜서 먹을 만함</li>
+                        <li><strong>위치:</strong> 강이다, 생태공원 근처</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">가족단위</span>
+                    <span class="recommendation-tag">장어전골</span>
+                    <span class="recommendation-tag">호불호있음</span>
+                </div>
+            </div>
+
+            <!-- 7. 양수리 빵공장 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">7. 양수리 빵공장</h3>
+                        <p class="restaurant-address">📍 경기 양평군 양서면 양수로118번길 9</p>
+                    </div>
+                    <span class="restaurant-type">베이커리</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>특징:</strong> 2층, 3층까지 있는 큰 베이커리</li>
+                        <li><strong>분위기:</strong> 가족단위, 커플단위로 오기 좋음</li>
+                        <li><strong>여름특선:</strong> 시원한 과일음료가 괜찮음</li>
+                        <li><strong>메뉴:</strong> 빵 외에도 간단한 식사메뉴 있음</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">대형베이커리</span>
+                    <span class="recommendation-tag">과일음료</span>
+                    <span class="recommendation-tag">식사가능</span>
+                </div>
+            </div>
+
+            <!-- 8. 강변집 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">8. 강변집</h3>
+                        <p class="restaurant-address">📍 경기 양평군 양서면 양수로152번길 31</p>
+                    </div>
+                    <span class="restaurant-type">한식</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 송어회, 매운탕 맛집</li>
+                        <li><strong>주차:</strong> 주차장 널널함</li>
+                        <li><strong>추천:</strong> 어칼제비도 맛 괜찮음</li>
+                        <li><strong>위치:</strong> 생태공원 바로 옆이라 식후 산책 좋음</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">송어회</span>
+                    <span class="recommendation-tag">매운탕</span>
+                    <span class="recommendation-tag">산책코스</span>
+                </div>
+            </div>
+
+            <!-- 9. 강이다 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">9. 강이다</h3>
+                        <p class="restaurant-address">📍 경기 양평군 양서면 북한강로81번길 23</p>
+                    </div>
+                    <span class="restaurant-type">카페</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>특징:</strong> 시설 깔끔한 카페</li>
+                        <li><strong>분위기:</strong> 가족단위, 커플단위로 오기 좋음</li>
+                        <li><strong>편의:</strong> 주차장 널널하고 화장실 깔끔함</li>
+                        <li><strong>산책:</strong> 산책코스도 있어서 식후 산책 좋음</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">깔끔한시설</span>
+                    <span class="recommendation-tag">주차편리</span>
+                    <span class="recommendation-tag">산책코스</span>
+                </div>
+            </div>
+
+            <!-- 10. 서종육회 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">10. 서종육회</h3>
+                        <p class="restaurant-address">📍 경기 양평군 서종면 당목뿌리길 4-1</p>
+                    </div>
+                    <span class="restaurant-type">한식</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>위치:</strong> 남한강마트 바로 옆 육회전문점</li>
+                        <li><strong>분위기:</strong> 가족단위, 커플단위로 오기 좋음</li>
+                        <li><strong>주차:</strong> 다른 곳에 주차하고 걸어올 수 있음</li>
+                        <li><strong>추천:</strong> 육회 좋아하면 방문 추천, 식후 남한강 산책 가능</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">육회전문</span>
+                    <span class="recommendation-tag">남한강산책</span>
+                    <span class="recommendation-tag">커플추천</span>
+                </div>
+            </div>
+
+            <!-- 11. 문호정 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">11. 문호정</h3>
+                        <p class="restaurant-address">📍 경기 양평군 서종면 하문호나룻터길 6</p>
+                    </div>
+                    <span class="restaurant-type">한식</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 우족탕, 곰탕 전문점</li>
+                        <li><strong>시설:</strong> 2025년 6월쯤 새로 지어져서 깔끔함</li>
+                        <li><strong>단체메뉴:</strong> 어복쟁반도 단체음식으로 괜찮음</li>
+                        <li><strong>주차:</strong> 주차장 괜찮음</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">우족탕</span>
+                    <span class="recommendation-tag">새건물</span>
+                    <span class="recommendation-tag">단체가능</span>
+                </div>
+            </div>
+
+            <!-- 12. 정원가든 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">12. 정원가든</h3>
+                        <p class="restaurant-address">📍 경기 양평군 서종면 북한강로 771</p>
+                    </div>
+                    <span class="restaurant-type">한식</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 묵밥 맛집</li>
+                        <li><strong>분위기:</strong> 가족단위로 오기 좋음</li>
+                        <li><strong>주차:</strong> 주차장이 좁은 편이지만 남한강마트에 주차하고 걸어갈 만함</li>
+                        <li><strong>추천:</strong> 콩탕도 괜찮은 편, 옛날 건물치고 내부는 깔끔함</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">묵밥</span>
+                    <span class="recommendation-tag">콩탕</span>
+                    <span class="recommendation-tag">깔끔한내부</span>
+                </div>
+            </div>
+
+            <!-- 13. 마쵸무쵸 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">13. 마쵸무쵸</h3>
+                        <p class="restaurant-address">📍 경기 양평군 서종면 북한강로 815</p>
+                    </div>
+                    <span class="restaurant-type">멕시코요리</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 서종면에서 유명한 멕시코 맛집</li>
+                        <li><strong>참고:</strong> 아직 방문해보지 않았지만 현지에서 유명한 곳</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">멕시코요리</span>
+                    <span class="recommendation-tag">서종면유명</span>
+                </div>
+            </div>
+
+            <!-- 14. 라온드뷰 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">14. 라온드뷰</h3>
+                        <p class="restaurant-address">📍 경기 양평군 서종면 하문호나룻터길 17-4</p>
+                    </div>
+                    <span class="restaurant-type">카페</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>특징:</strong> 남한강 뷰가 좋은 카페</li>
+                        <li><strong>분위기:</strong> 가족단위, 커플단위로 오기 좋음</li>
+                        <li><strong>주차:</strong> 전용 주차장 있음</li>
+                        <li><strong>참고:</strong> 커피 맛과 내부 시설은 미확인</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">남한강뷰</span>
+                    <span class="recommendation-tag">전용주차장</span>
+                    <span class="recommendation-tag">뷰맛집</span>
+                </div>
+            </div>
+
+            <!-- 15. 용골가든 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">15. 용골가든</h3>
+                        <p class="restaurant-address">📍 경기 양평군 개군면 개군로 333-2</p>
+                    </div>
+                    <span class="restaurant-type">한식</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 송어회 맛집</li>
+                        <li><strong>특징:</strong> 김대호 아나운서 관련된 사람이 운영, 방송에도 나옴</li>
+                        <li><strong>주차:</strong> 주차장 넓음</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">송어회</span>
+                    <span class="recommendation-tag">방송맛집</span>
+                    <span class="recommendation-tag">넓은주차장</span>
+                </div>
+            </div>
+
+            <!-- 16. 개군할머니토종순대국 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">16. 개군할머니토종순대국</h3>
+                        <p class="restaurant-address">📍 경기 양평군 개군면 하자포길 27-2 1층</p>
+                    </div>
+                    <span class="restaurant-type">한식</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>특징:</strong> 양 많은 순대국집, 맛도 괜찮음</li>
+                        <li><strong>분위기:</strong> 가족단위로 많이 옴</li>
+                        <li><strong>주차:</strong> 주차장 널널함</li>
+                        <li><strong>참고:</strong> 가게가 엄청 넓음 (구석자리 파리 주의)</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">순대국</span>
+                    <span class="recommendation-tag">푸짐한양</span>
+                    <span class="recommendation-tag">넓은매장</span>
+                </div>
+            </div>
+
+            <!-- 17. 핏제리아루카 양평점 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">17. 핏제리아루카 양평점</h3>
+                        <p class="restaurant-address">📍 경기 양평군 강상면 강남로 802</p>
+                    </div>
+                    <span class="restaurant-type">이탈리아요리</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 수제 피자 맛집</li>
+                        <li><strong>분위기:</strong> 가족단위, 커플단위로 오기 좋음</li>
+                        <li><strong>특징:</strong> 피자 종류도 많고 화덕에서 바로 나온 피자라 맛있음</li>
+                        <li><strong>참고:</strong> 이사 후 주차 상황은 미확인</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">수제피자</span>
+                    <span class="recommendation-tag">화덕피자</span>
+                    <span class="recommendation-tag">다양한메뉴</span>
+                </div>
+            </div>
+
+            <!-- 18. 옥천고읍냉면 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">18. 옥천고읍냉면</h3>
+                        <p class="restaurant-address">📍 경기 양평군 옥천면 옥천길98번길 6</p>
+                    </div>
+                    <span class="restaurant-type">한식</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 물냉면, 비빔냉면 맛집</li>
+                        <li><strong>분위기:</strong> 가족단위, 커플단위로 오기 좋음</li>
+                        <li><strong>주차:</strong> 주차장 널널함, 내부 시설도 깔끔함</li>
+                        <li><strong>추천:</strong> 완자 시켜서 냉면이랑 같이 먹는 것 추천</li>
+                        <li><strong>위치:</strong> 옥천면 안쪽에 위치</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">냉면맛집</span>
+                    <span class="recommendation-tag">깔끔한시설</span>
+                    <span class="recommendation-tag">완자추천</span>
+                </div>
+            </div>
+
+            <!-- 19. 더그림 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">19. 더그림</h3>
+                        <p class="restaurant-address">📍 경기 양평군 옥천면 사나사길 175</p>
+                    </div>
+                    <span class="restaurant-type">관광지</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>특징:</strong> 뷰가 진짜 좋은 수목원</li>
+                        <li><strong>분위기:</strong> 가족단위, 커플단위로 많이 옴</li>
+                        <li><strong>주차:</strong> 주차장 널널함</li>
+                        <li><strong>혜택:</strong> 입장권 구매하면 음료도 제공</li>
+                        <li><strong>추천:</strong> 무조건 날 좋을 때 방문하는 것 추천</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">수목원</span>
+                    <span class="recommendation-tag">좋은뷰</span>
+                    <span class="recommendation-tag">음료제공</span>
+                    <span class="recommendation-tag">날씨중요</span>
+                </div>
+            </div>
+
+            <!-- 20. 돗가비 불쭈꾸미 본점 -->
+            <div class="restaurant-item">
+                <div class="restaurant-header">
+                    <div>
+                        <h3 class="restaurant-name">20. 돗가비 불쭈꾸미 본점</h3>
+                        <p class="restaurant-address">📍 경기 양평군 용문면 용문산로 207</p>
+                    </div>
+                    <span class="restaurant-type">한식</span>
+                </div>
+                <div class="restaurant-description">
+                    <ul>
+                        <li><strong>전문:</strong> 불쭈꾸미 맛집</li>
+                        <li><strong>분위기:</strong> 가족단위, 커플단위로 많이 옴</li>
+                        <li><strong>주차:</strong> 주차장 널널함</li>
+                        <li><strong>추천:</strong> 들깨수제비까지 같이 먹으면 좋음</li>
+                        <li><strong>주변:</strong> 식사 후 위로 쭉 가면 용문산 관광단지 있음</li>
+                    </ul>
+                </div>
+                <div class="recommendation-tags">
+                    <span class="recommendation-tag">불쭈꾸미</span>
+                    <span class="recommendation-tag">들깨수제비</span>
+                    <span class="recommendation-tag">용문산관광</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">💡 이용 팁</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <h3>🚗 주차 정보</h3>
+                    <p>대부분의 맛집이 주차 공간을 제공하지만, 일부는 근처 마트나 공영주차장을 이용해야 합니다.</p>
+                </div>
+                
+                <div class="category-card">
+                    <h3>⏰ 웨이팅 주의</h3>
+                    <p>몽키가든 같은 인기 맛집은 웨이팅이 길 수 있으니 미리 전화로 예약하는 것을 추천합니다.</p>
+                </div>
+                
+                <div class="category-card">
+                    <h3>🌿 산책 코스</h3>
+                    <p>북한강, 남한강 주변 맛집들은 식후 산책을 즐길 수 있는 생태공원이나 산책로가 근처에 있습니다.</p>
+                </div>
+                
+                <div class="category-card">
+                    <h3>👨‍👩‍👧‍👦 가족 vs 커플</h3>
+                    <p>대부분 가족 단위로 적합하지만, 뷰가 좋은 카페나 이국적인 요리점은 커플 데이트에도 좋습니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2025 양평 맛집 가이드. 로컬이 직접 다녀본 진짜 맛집 정보입니다.</p>
+            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">
+                📍 위치 정보와 운영 시간은 방문 전 확인하시기 바랍니다.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // 스크롤 애니메이션
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 애니메이션 대상 요소들
+        document.querySelectorAll('.restaurant-item, .category-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // 맨 위로 스크롤 버튼
+        const scrollTopBtn = document.createElement('button');
+        scrollTopBtn.innerHTML = '⬆️';
+        scrollTopBtn.style.cssText = `
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: rgba(44, 62, 80, 0.8);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 999;
+        `;
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.style.opacity = '1';
+            } else {
+                scrollTopBtn.style.opacity = '0';
+            }
+        });
+
+        document.body.appendChild(scrollTopBtn);
+
+        // 페이지 로드 완료 후 확인
+        window.addEventListener('load', () => {
+            const restaurantItems = document.querySelectorAll('.restaurant-item');
+            console.log(`총 ${restaurantItems.length}개의 맛집이 로드되었습니다.`);
+            
+            // 각 맛집 이름 확인
+            restaurantItems.forEach((item, index) => {
+                const nameElement = item.querySelector('.restaurant-name');
+                if (nameElement) {
+                    console.log(`${index + 1}. ${nameElement.textContent}`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
